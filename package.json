@@ -1,0 +1,26 @@
+{
+  "name": "cash-clone.vercel.app",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node -r dotenv/config server.js",
+    "start": "node server.js",
+    "server": "node server.js",
+    "frontend": "npx lite-server --port 5173 --baseDir ./"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-mongo": "^5.1.0",
+    "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.2",
+    "express-session": "^1.19.0",
+    "mongoose": "^8.24.1",
+    "sharp": "^0.34.5"
+  },
+  "type": "commonjs"
+}
