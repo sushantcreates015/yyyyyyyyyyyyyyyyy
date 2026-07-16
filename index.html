@@ -1460,9 +1460,7 @@
       .m2-load-blur{filter:blur(3.5px);opacity:.4;pointer-events:none;flex-shrink:0}
       .m2-load-name{font-size:24px;font-weight:700;color:#fff;margin-top:2px}
       .m2-spin-wrap{flex:1;display:flex;align-items:center;justify-content:center}
-      .m2-spin-circle{width:40px;height:40px;background:#000;border-radius:50%;overflow:hidden;isolation:isolate}
-      .m2-spin{width:100%;height:100%;display:block;mix-blend-mode:screen;filter:contrast(12)}
-      .m2-spin-img{display:none}
+      .m2-smile-load{width:130px;height:130px;object-fit:contain;filter:invert(1)}
       @keyframes m2SpinAnim{to{transform:rotate(360deg)}}
 
       /* ── Mode 2 Success Screen ── */
@@ -1524,9 +1522,44 @@
       /* Payment done / success screen dark */
       body.pay-mode-3 #m2Success{background:#000}
       body.pay-mode-3 .m2-success-title{color:#fff}
-      /* Loading spinner: use Mode 1 style rotating spinner, recolored to white for dark bg */
-      body.pay-mode-3 .m2-spin-circle{display:none}
-      body.pay-mode-3 .m2-spin-img{display:block;width:46px;height:46px;animation:m2SpinAnim 1.1s linear infinite;filter:brightness(0) invert(1)}
+      /* Loading gif is white-stroke by default (matches the black dark-mode panel) */
+
+      /* ── Mode 3 : optional White style (user-selectable in Settings) ── */
+      body.pay-mode-3.mode3-white .m2-panel{background:#fff}
+      body.pay-mode-3.mode3-white .m2-pill{background:rgba(0,0,0,.2)}
+      body.pay-mode-3.mode3-white .m2-icon-btn{background:#e6e6e6;color:#000}
+      body.pay-mode-3.mode3-white .m2-header-title,
+      body.pay-mode-3.mode3-white .m2-pay-to-line,
+      body.pay-mode-3.mode3-white .m2-amt,
+      body.pay-mode-3.mode3-white .m2-result-name,
+      body.pay-mode-3.mode3-white .m2-recip-name,
+      body.pay-mode-3.mode3-white .m2-review-note,
+      body.pay-mode-3.mode3-white .m2-bal-label,
+      body.pay-mode-3.mode3-white .m2-load-name,
+      body.pay-mode-3.mode3-white .m2-styleit-btn{color:#000}
+      body.pay-mode-3.mode3-white .m2-to-gray,
+      body.pay-mode-3.mode3-white .m2-for-gray{color:rgba(0,0,0,.4)}
+      body.pay-mode-3.mode3-white .m2-search-wrap{background:#f0f0f0}
+      body.pay-mode-3.mode3-white .m2-search-ico,
+      body.pay-mode-3.mode3-white .m2-results-lbl,
+      body.pay-mode-3.mode3-white .m2-result-handle,
+      body.pay-mode-3.mode3-white .m2-chevron-v,
+      body.pay-mode-3.mode3-white .m2-warn-txt{color:rgba(0,0,0,.45)}
+      body.pay-mode-3.mode3-white .m2-search-input{color:#000}
+      body.pay-mode-3.mode3-white .m2-search-input::placeholder,
+      body.pay-mode-3.mode3-white .m2-note-input::placeholder{color:rgba(0,0,0,.3)}
+      body.pay-mode-3.mode3-white .m2-search-clr{background:rgba(0,0,0,.1);color:#000}
+      body.pay-mode-3.mode3-white .m2-result-item:active{background:rgba(0,0,0,.06)}
+      body.pay-mode-3.mode3-white .m2-note-input{color:#000;caret-color:#000}
+      body.pay-mode-3.mode3-white .m2-note-divider{background:rgba(0,0,0,.14)}
+      body.pay-mode-3.mode3-white .m2-continue-btn{color:rgba(0,0,0,.4)}
+      body.pay-mode-3.mode3-white .m2-continue-btn.has-note{background:#000;color:#fff}
+      body.pay-mode-3.mode3-white .m2-styleit-btn{border-color:rgba(0,0,0,.3)}
+      body.pay-mode-3.mode3-white .m2-balance-row{color:#000}
+      body.pay-mode-3.mode3-white .m2-review-pay-btn{background:#000;color:#fff}
+      body.pay-mode-3.mode3-white #m2Success{background:#fff}
+      body.pay-mode-3.mode3-white .m2-success-title{color:#000}
+      body.pay-mode-3.mode3-white .m2-smile-load{filter:none}
     </style>
     <script src="dark-mode.js"></script>
   </head>
@@ -1674,6 +1707,26 @@
               <small>Changes the app appearance to a dark theme</small>
             </span>
           </label>
+        </div>
+        <div class="settings-section">
+          <h3>Mode 3 Pay Sheet Style</h3>
+          <p>Choose whether the Mode 3 pay sheet appears dark or white.</p>
+          <div class="settings-radio-group" id="mode3StyleGroup">
+            <label class="settings-radio-option">
+              <input type="radio" name="mode3Style" value="dark" />
+              <span>
+                <strong>Dark</strong>
+                <small>Black card with white text.</small>
+              </span>
+            </label>
+            <label class="settings-radio-option">
+              <input type="radio" name="mode3Style" value="white" />
+              <span>
+                <strong>White</strong>
+                <small>Original white card with black text.</small>
+              </span>
+            </label>
+          </div>
         </div>
         <div class="settings-section">
           <h3>Success Screen Note</h3>
@@ -2185,6 +2238,7 @@
         const settingsSaveBtn = document.getElementById('settingsSaveBtn');
         const customBalanceInput = document.getElementById('customBalanceInput');
         const searchModeInputs = settingsModal?.querySelectorAll('input[name="searchMode"]') || [];
+        const mode3StyleInputs = settingsModal?.querySelectorAll('input[name="mode3Style"]') || [];
         const faceIdToggleSettings = document.getElementById('faceIdToggleSettings');
         const faceIdStatusSettings = document.getElementById('faceIdStatusSettings');
         const darkModeToggle = document.getElementById('darkModeToggle');
@@ -2195,6 +2249,7 @@
         const FACEID_ENABLED_KEY = 'cashAppFaceIdEnabled';
         const FACEID_CREDENTIAL_KEY = 'cashAppFaceIdCredential';
         const DARK_MODE_KEY = 'cashAppDarkMode';
+        const MODE3_STYLE_KEY = 'cashAppMode3Style';
         const DEFAULT_SEARCH_MODE = 'cash';
         const SUCCESS_NOTE_KEY = 'cashAppSuccessNote';
 
@@ -2276,6 +2331,29 @@
           });
         }
 
+        // Mode 3 Pay Sheet Style (Dark / White)
+        const applyMode3Style = (style) => {
+          document.body.classList.toggle('mode3-white', style === 'white');
+        };
+
+        const persistMode3Style = (style) => {
+          localStorage.setItem(MODE3_STYLE_KEY, style);
+          applyMode3Style(style);
+        };
+
+        // Initialize Mode 3 style on page load (defaults to dark)
+        const initialMode3Style = localStorage.getItem(MODE3_STYLE_KEY) || 'dark';
+        applyMode3Style(initialMode3Style);
+
+        // Mode 3 Style Radio Handler
+        mode3StyleInputs.forEach((input) => {
+          input.addEventListener('change', (e) => {
+            if (e.target.checked) {
+              persistMode3Style(e.target.value);
+            }
+          });
+        });
+
         const getCookieValue = (name) => {
           const prefix = `${name}=`;
           const cookies = document.cookie ? document.cookie.split(';') : [];
@@ -2333,6 +2411,12 @@
           if (darkModeToggle) {
             darkModeToggle.checked = darkModeEnabled;
           }
+
+          // Load Mode 3 Style state
+          const currentMode3Style = localStorage.getItem(MODE3_STYLE_KEY) || 'dark';
+          mode3StyleInputs.forEach((input) => {
+            input.checked = input.value === currentMode3Style;
+          });
 
           // Load Success Note
           if (successNoteInput) {
@@ -2516,7 +2600,7 @@
             <div class="m2-pay-to-line">Pay <span class="m2-amt" id="m2LoadAmt"></span><span class="m2-to-gray"> to</span></div>
             <div class="m2-load-name" id="m2LoadName"></div>
           </div>
-          <div class="m2-spin-wrap"><div class="m2-spin-circle"><video class="m2-spin" src="images/6ebd4bdd08d54f6e98f960744645d396.mov" autoplay loop muted playsinline></video></div><img class="m2-spin-img" src="icons/green_spinner_thick.png" alt="Loading" /></div>
+          <div class="m2-spin-wrap"><img class="m2-smile-load" src="icons/loading-smile.gif" alt="Loading" /></div>
         </div>
       </div>
     </div>
@@ -3178,7 +3262,7 @@
           setTimeout(() => {
             closeSheet();
             showSuccess();
-          }, 2500);
+          }, 8000);
         });
       }
 
