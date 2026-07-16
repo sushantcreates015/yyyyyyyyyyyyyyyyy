@@ -1460,7 +1460,9 @@
       .m2-load-blur{filter:blur(3.5px);opacity:.4;pointer-events:none;flex-shrink:0}
       .m2-load-name{font-size:24px;font-weight:700;color:#fff;margin-top:2px}
       .m2-spin-wrap{flex:1;display:flex;align-items:center;justify-content:center}
-      .m2-smile-load{width:130px;height:130px;object-fit:contain;filter:invert(1)}
+      .m2-spin-circle{width:40px;height:40px;background:#000;border-radius:50%;overflow:hidden;isolation:isolate}
+      .m2-spin{width:100%;height:100%;display:block;mix-blend-mode:screen;filter:contrast(12)}
+      .m2-spin-img{display:none}
       @keyframes m2SpinAnim{to{transform:rotate(360deg)}}
 
       /* ── Mode 2 Success Screen ── */
@@ -1522,7 +1524,9 @@
       /* Payment done / success screen dark */
       body.pay-mode-3 #m2Success{background:#000}
       body.pay-mode-3 .m2-success-title{color:#fff}
-      /* Loading gif is white-stroke by default (matches the black dark-mode panel) */
+      /* Loading spinner: use Mode 1 style rotating spinner, recolored to white for dark bg */
+      body.pay-mode-3 .m2-spin-circle{display:none}
+      body.pay-mode-3 .m2-spin-img{display:block;width:46px;height:46px;animation:m2SpinAnim 1.1s linear infinite;filter:brightness(0) invert(1)}
 
       /* ── Mode 3 : optional White style (user-selectable in Settings) ── */
       body.pay-mode-3.mode3-white .m2-panel{background:#fff}
@@ -1559,7 +1563,7 @@
       body.pay-mode-3.mode3-white .m2-review-pay-btn{background:#000;color:#fff}
       body.pay-mode-3.mode3-white #m2Success{background:#fff}
       body.pay-mode-3.mode3-white .m2-success-title{color:#000}
-      body.pay-mode-3.mode3-white .m2-smile-load{filter:none}
+      body.pay-mode-3.mode3-white .m2-spin-img{filter:brightness(0)}
     </style>
     <script src="dark-mode.js"></script>
   </head>
@@ -2555,7 +2559,7 @@
             <button class="m2-search-clr" id="m2SearchClr">&#x2715;</button>
           </div>
           <div class="m2-results-lbl">RESULTS</div>
-          <div id="m2SearchSpinner" class="m2-spinner m2-hidden"><div class="m2-spinner-ring"><video src="blackeer-loading-theme.mov" autoplay loop muted playsinline></video></div></div>
+          <div id="m2SearchSpinner" class="m2-spinner m2-hidden"><div class="m2-spinner-ring"><video src="b.movlackeer-loading-theme" autoplay loop muted playsinline></video></div></div>
           <div id="m2ResultsList" class="m2-results-list"></div>
         </div>
 
@@ -2600,7 +2604,7 @@
             <div class="m2-pay-to-line">Pay <span class="m2-amt" id="m2LoadAmt"></span><span class="m2-to-gray"> to</span></div>
             <div class="m2-load-name" id="m2LoadName"></div>
           </div>
-          <div class="m2-spin-wrap"><img class="m2-smile-load" src="icons/loading-smile.gif" alt="Loading" /></div>
+          <div class="m2-spin-wrap"><div class="m2-spin-circle"><video class="m2-spin" src="images/6ebd4bdd08d54f6e98f960744645d396.mov" autoplay loop muted playsinline></video></div><img class="m2-spin-img" src="icons/green_spinner_thick.png" alt="Loading" /></div>
         </div>
       </div>
     </div>
@@ -3262,7 +3266,7 @@
           setTimeout(() => {
             closeSheet();
             showSuccess();
-          }, 8000);
+          }, 2500);
         });
       }
 
