@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,13 +7,6 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
-    <meta name="theme-color" content="#0f8038" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta name="apple-mobile-web-app-title" content="Cash Mode" />
-    <link rel="manifest" href="site.webmanifest" />
-    <link rel="icon" type="image/png" sizes="192x192" href="icons/Cash_App-Logo.wine.png" />
-    <link rel="apple-touch-icon" href="icons/Cash_App-Logo.wine.png" />
     <title>Activity - Cash App</title>
     <script>
       (() => {
@@ -55,6 +47,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <script src="guard.js"></script>
     <script src="dark-mode.js"></script>
     <style>
       @font-face {
@@ -525,7 +518,18 @@
   </head>
   <body>
     <div class="activity-container">
-
+    <meta name="theme-color" content="#0f8038" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="Cash Mode" />
+    <link rel="manifest" href="site.webmanifest" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="icons/Cash_App-Logo.wine.png"
+    />
+    <link rel="apple-touch-icon" href="icons/Cash_App-Logo.wine.png" />
       <header class="activity-header">
         <h1>Activity</h1>
         <a href="profile.html" class="profile-icon-link"></a>
@@ -1020,6 +1024,5 @@
       });
     </script>
     <script src="footer.display.js"></script>
-      <script src="nav-transition.js"></script>
-</body>
+  </body>
 </html>
